@@ -1,0 +1,63 @@
+﻿<prism:PrismApplication x:Class="MyToDo.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:MyToDo"
+             xmlns:materialDesign ="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:prism="http://prismlibrary.com/"
+             >
+    <Application.Resources>
+        <ResourceDictionary>
+            <!-- 引入其他资源字典 -->
+            <ResourceDictionary.MergedDictionaries>
+                <materialDesign:BundledTheme BaseTheme="Dark" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            
+            <!-- 设置ListBoxItem的样式 Key指定了这个样式资源的名字，在本项目中它的使用是
+                 ItemContainerStyle="{StaticResource MyListBoxItemStyle}" 表示为每一个Item
+                 使用这个样式。当然,由于在该定义中设置了TargetType="ListBoxItem"，因此引用
+                 这个样式时，应当是使用在ListBox标签下-->
+            <Style TargetType="ListBoxItem" x:Key="MyListBoxItemStyle">
+                <!-- 每一个ListBoxItem的最大高度是30 -->
+                <Setter Property="MinHeight" Value="30"/>
+                <!-- 这里定义每一个ListBoxItem的内容模板 -->
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                            <Grid>
+                                <!-- 下面的两个border都是“附加”的 -->
+                                <Border x:Name="borderHeader"/>
+                                <Border x:Name="border"/>
+                                <!-- ContentPresenter内容呈现器，控制的是每个ListBoxItem不相同的那部分，具体的内容
+                                    由实际定义处。例如在另一个页面中：
+                                    <ListBox ItemContainerStyle="{StaticResource MyListBoxItemStyle}">
+                                        <ListBoxItem>nihao</ListBoxItem>
+                                    </ListBox>
+                                    ContentPresenter内容呈现器控制<ListBoxItem>nihao</ListBoxItem>的显示-->
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                                  VerticalAlignment="{TemplateBinding VerticalAlignment}">
+
+                                </ContentPresenter>
+                            </Grid>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <!--BorderThickness :设置 Border 边框的宽度 -->
+                                    <!--BorderBrush :用于绘制外部边框颜色 -->
+                                    <Setter TargetName="borderHeader" Property="BorderThickness"  Value="4,0,0,0"/>
+                                    <Setter TargetName="borderHeader" Property="BorderBrush" Value="{DynamicResource PrimaryHueLightBrush}"/>
+                                    <Setter TargetName="border" Property="Background" Value="{DynamicResource PrimaryHueLightBrush}"/>
+                                    <Setter TargetName="border" Property="Opacity" Value="0.2"/>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="border" Property="Background" Value="{DynamicResource PrimaryHueLightBrush}"/>
+                                    <Setter TargetName="border" Property="Opacity" Value="0.2"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                        
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</prism:PrismApplication>
